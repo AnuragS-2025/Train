@@ -1,43 +1,30 @@
-class CargoSafetyException extends RuntimeException {
-    public CargoSafetyException(String message) {
-        super(message);
-    }
-}
-
-class GoodsBogie {
-    String type;
-    String cargo;
-
-    GoodsBogie(String type) {
-        this.type = type;
-    }
-
-    void assignCargo(String cargo) {
-        try {
-            if (type.equals("Rectangular") && cargo.equals("Petroleum")) {
-                throw new CargoSafetyException("Unsafe cargo assignment!");
-            }
-            this.cargo = cargo;
-            System.out.println(type + " bogie assigned cargo: " + cargo);
-        } catch (CargoSafetyException e) {
-            System.out.println("Error: " + e.getMessage());
-        } finally {
-            System.out.println("Assignment attempt completed.");
-        }
-    }
-}
-
 public class Train {
     public static void main(String[] args) {
 
-        System.out.println("UC15 - Safe Cargo Assignment");
+        System.out.println("UC16 - Sort Passenger Bogies by Capacity (Bubble Sort)");
 
-        GoodsBogie b1 = new GoodsBogie("Cylindrical");
-        b1.assignCargo("Petroleum");
+        int[] capacities = {72, 56, 24, 70, 60};
 
-        GoodsBogie b2 = new GoodsBogie("Rectangular");
-        b2.assignCargo("Petroleum");
+        System.out.println("\nBefore Sorting:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
 
-        System.out.println("\nUC15 execution completed...");
+        for (int i = 0; i < capacities.length - 1; i++) {
+            for (int j = 0; j < capacities.length - i - 1; j++) {
+                if (capacities[j] > capacities[j + 1]) {
+                    int temp = capacities[j];
+                    capacities[j] = capacities[j + 1];
+                    capacities[j + 1] = temp;
+                }
+            }
+        }
+
+        System.out.println("\n\nAfter Sorting:");
+        for (int c : capacities) {
+            System.out.print(c + " ");
+        }
+
+        System.out.println("\n\nUC16 sorting completed...");
     }
 }
