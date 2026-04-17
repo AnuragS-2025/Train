@@ -1,12 +1,18 @@
-import java.util.*;
-import java.util.stream.Collectors;
+class InvalidCapacityException extends Exception {
+    public InvalidCapacityException(String message) {
+        super(message);
+    }
+}
 
-class Bogie {
-    String name;
+class PassengerBogie {
+    String type;
     int capacity;
 
-    Bogie(String name, int capacity) {
-        this.name = name;
+    PassengerBogie(String type, int capacity) throws InvalidCapacityException {
+        if (capacity <= 0) {
+            throw new InvalidCapacityException("Capacity must be greater than zero");
+        }
+        this.type = type;
         this.capacity = capacity;
     }
 }
@@ -14,41 +20,19 @@ class Bogie {
 public class Train {
     public static void main(String[] args) {
 
-        System.out.println("UC13 - Performance Comparison (Loops vs Streams)");
+        System.out.println("UC14 - Handle Invalid Bogie Capacity");
 
-        List<Bogie> bogies = new ArrayList<>();
+        try {
+            PassengerBogie b1 = new PassengerBogie("Sleeper", 72);
+            System.out.println(b1.type + " -> " + b1.capacity);
 
-        for (int i = 0; i < 10000; i++) {
-            bogies.add(new Bogie("Sleeper", 72));
-            bogies.add(new Bogie("AC Chair", 56));
-            bogies.add(new Bogie("First Class", 24));
+            PassengerBogie b2 = new PassengerBogie("AC Chair", -10);
+            System.out.println(b2.type + " -> " + b2.capacity);
+
+        } catch (InvalidCapacityException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        long startLoop = System.nanoTime();
-
-        List<Bogie> loopResult = new ArrayList<>();
-        for (Bogie b : bogies) {
-            if (b.capacity > 60) {
-                loopResult.add(b);
-            }
-        }
-
-        long endLoop = System.nanoTime();
-
-        long startStream = System.nanoTime();
-
-        List<Bogie> streamResult = bogies.stream()
-                .filter(b -> b.capacity > 60)
-                .collect(Collectors.toList());
-
-        long endStream = System.nanoTime();
-
-        System.out.println("\nLoop Result Size: " + loopResult.size());
-        System.out.println("Loop Time (ns): " + (endLoop - startLoop));
-
-        System.out.println("\nStream Result Size: " + streamResult.size());
-        System.out.println("Stream Time (ns): " + (endStream - startStream));
-
-        System.out.println("\nUC13 performance comparison completed...");
+        System.out.println("\nUC14 exception handling completed...");
     }
 }
