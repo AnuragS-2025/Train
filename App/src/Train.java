@@ -1,24 +1,24 @@
-import java.util.LinkedHashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Train {
     public static void main(String[] args) {
 
-        System.out.println("UC5 - Preserve Insertion Order of Bogies");
+        System.out.println("UC6 - Map Bogie to Capacity (HashMap)");
 
-        LinkedHashSet<String> train = new LinkedHashSet<>();
+        Map<String, Integer> bogieCapacity = new HashMap<>();
 
-        train.add("Engine");
-        train.add("Sleeper");
-        train.add("Cargo");
-        train.add("Guard");
-        train.add("Sleeper");
+        bogieCapacity.put("First Class", 24);
+        bogieCapacity.put("Cargo", 120);
+        bogieCapacity.put("Sleeper", 72);
+        bogieCapacity.put("AC Chair", 56);
 
-        System.out.println("\nFinal Train Formation:");
-        System.out.println(train);
+        System.out.println("\nBogie Capacity Details:");
 
-        System.out.println("\nNote:");
-        System.out.println("LinkedHashSet preserves insertion order and removes duplicates automatically.");
+        for (Map.Entry<String, Integer> entry : bogieCapacity.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
+        }
 
-        System.out.println("\nUC5 formation setup completed...");
+        System.out.println("\nUC6 bogie-capacity mapping completed...");
     }
 }
