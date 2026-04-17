@@ -1,35 +1,54 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
-class GoodsBogie {
-    String type;
-    String cargo;
+class Bogie {
+    String name;
+    int capacity;
 
-    GoodsBogie(String type, String cargo) {
-        this.type = type;
-        this.cargo = cargo;
+    Bogie(String name, int capacity) {
+        this.name = name;
+        this.capacity = capacity;
     }
 }
 
 public class Train {
     public static void main(String[] args) {
 
-        System.out.println("UC12 - Safety Compliance Check for Goods Bogies");
+        System.out.println("UC13 - Performance Comparison (Loops vs Streams)");
 
-        List<GoodsBogie> bogies = new ArrayList<>();
+        List<Bogie> bogies = new ArrayList<>();
 
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
-        bogies.add(new GoodsBogie("Open", "Coal"));
-        bogies.add(new GoodsBogie("Box", "Grain"));
-        bogies.add(new GoodsBogie("Cylindrical", "Petroleum"));
+        for (int i = 0; i < 10000; i++) {
+            bogies.add(new Bogie("Sleeper", 72));
+            bogies.add(new Bogie("AC Chair", 56));
+            bogies.add(new Bogie("First Class", 24));
+        }
 
-        boolean isSafe = bogies.stream()
-                .allMatch(b ->
-                        b.type.equals("Cylindrical") ? b.cargo.equals("Petroleum") : true
-                );
+        long startLoop = System.nanoTime();
 
-        System.out.println("\nSafety Compliance Result:");
-        System.out.println("Is Train Safe? : " + isSafe);
+        List<Bogie> loopResult = new ArrayList<>();
+        for (Bogie b : bogies) {
+            if (b.capacity > 60) {
+                loopResult.add(b);
+            }
+        }
 
-        System.out.println("\nUC12 safety validation completed...");
+        long endLoop = System.nanoTime();
+
+        long startStream = System.nanoTime();
+
+        List<Bogie> streamResult = bogies.stream()
+                .filter(b -> b.capacity > 60)
+                .collect(Collectors.toList());
+
+        long endStream = System.nanoTime();
+
+        System.out.println("\nLoop Result Size: " + loopResult.size());
+        System.out.println("Loop Time (ns): " + (endLoop - startLoop));
+
+        System.out.println("\nStream Result Size: " + streamResult.size());
+        System.out.println("Stream Time (ns): " + (endStream - startStream));
+
+        System.out.println("\nUC13 performance comparison completed...");
     }
 }
