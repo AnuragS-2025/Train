@@ -1,30 +1,28 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Train {
+
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("UC16 - Sort Passenger Bogies by Capacity (Bubble Sort)");
+        System.out.print("Enter number of bogies: ");
+        int n = scanner.nextInt();
+        scanner.nextLine(); // consume newline
 
-        int[] capacities = {72, 56, 24, 70, 60};
+        String[] bogies = new String[n];
 
-        System.out.println("\nBefore Sorting:");
-        for (int c : capacities) {
-            System.out.print(c + " ");
+        System.out.println("Enter bogie names:");
+        for (int i = 0; i < n; i++) {
+            bogies[i] = scanner.nextLine();
         }
 
-        for (int i = 0; i < capacities.length - 1; i++) {
-            for (int j = 0; j < capacities.length - i - 1; j++) {
-                if (capacities[j] > capacities[j + 1]) {
-                    int temp = capacities[j];
-                    capacities[j] = capacities[j + 1];
-                    capacities[j + 1] = temp;
-                }
-            }
-        }
+        // Sorting using built-in method
+        Arrays.sort(bogies);
 
-        System.out.println("\n\nAfter Sorting:");
-        for (int c : capacities) {
-            System.out.print(c + " ");
-        }
+        System.out.println("Sorted Bogie Names:");
+        System.out.println(Arrays.toString(bogies));
 
-        System.out.println("\n\nUC16 sorting completed...");
+        scanner.close();
     }
 }
